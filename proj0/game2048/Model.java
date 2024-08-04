@@ -121,8 +121,8 @@ public class Model extends Observable {
         }
         if (row < 2){
             if (row == 0 && !topRowMerge){
-                if(canBeMoved(b, col, row, row+3) && b.tile(col, row+2) == null && b.tile(col, row+1) == null){
-                    return row+3;
+                if(canBeMoved(b, col, 0, 3) && b.tile(col, 2) == null && b.tile(col, 1) == null){
+                    return 3;
                 }
             }
             if(canBeMoved(b, col, row, row+2) && b.tile(col, row+1) == null){
@@ -150,9 +150,7 @@ public class Model extends Observable {
                     int r = rowIndex(board, i, j);
                     if (r != j){
                         if(board.move(i, r, t)){
-                            Tile updatedTile = board.tile(i, r);
-//                            System.out.println(updatedTile.value());
-                            score += updatedTile.value();
+                            score += board.tile(i, r).value();
                         }
                         changed = true;
                     }
@@ -164,7 +162,6 @@ public class Model extends Observable {
         if (changed) {
             setChanged();
         }
-//        System.out.println(this.isMerged);
         board.setViewingPerspective(Side.NORTH);
         return changed;
     }
