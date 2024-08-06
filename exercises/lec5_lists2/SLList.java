@@ -42,6 +42,10 @@ public class SLList {
     //adds an item to the last of the list
     public void addLast(int x) {
         size++;
+        if (first == null) {
+            first = new IntNode(x, null);
+            return;
+        }
         //traverse to the end of the list
         IntNode p = first;
         while (p.next != null) {
