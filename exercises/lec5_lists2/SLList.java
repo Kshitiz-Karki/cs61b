@@ -129,6 +129,20 @@ public class SLList {
         }
     }
 
+    //exercise A.2
+    public void square(int x) {
+        IntNode p = sentinel;
+        IntNode q, temp;
+        while (p.next != null) {
+            q = p.next;
+            temp = new IntNode(q.item * q.item, q.next);
+            q.next = temp;
+            p = temp;
+            size++;
+        }
+        this.addLast(x);
+    }
+
     //string representation of the list
     private static String toString(IntNode p) {
         //base case if the list is empty
@@ -148,18 +162,23 @@ public class SLList {
     }
 
     public static void main(String[] args) {
-        int[] a = new int[]{1, 1, 2, 3};
+//        int[] a = new int[]{1, 1, 2, 3};
 //        int[] a = new int[]{6, 1, 1, 2, 3};
 //        int[] a = new int[]{1, 1};
+        int[] a = new int[]{1, 2};
         SLList list = new SLList(a);
 //        list.addLast(50);
 //        list.addLast(40);
 //        list.deleteFirst();
         System.out.println("list size: " + list.size());
         System.out.println("before: " + list.toString());
-        list.addAdjacent();
-        System.out.println("addAdjacent() :-");
+//        list.addAdjacent();
+//        System.out.println("addAdjacent() :-");
+        list.square(5);
+        list.square(7);
+        System.out.println("square() :-");
         System.out.println("list size: " + list.size());
         System.out.println("after : " + list.toString());
+
     }
 }
