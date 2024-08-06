@@ -46,6 +46,18 @@ public class SLList {
         size = 1;
     }
 
+    //(exercise B.2) constructor when the input is array of integers
+    public SLList(int[] arr) {
+        size = arr.length;
+        sentinel = new IntNode(10, null);
+        IntNode p = sentinel;
+        for (int j : arr) {
+            p.next = new IntNode(j, null);
+            p = p.next;
+        }
+    }
+
+
     //instance/static methods
 
     //adds an item to the front of the list
@@ -86,7 +98,68 @@ public class SLList {
         return size; // using caching (practice of saving important data to speed up retrieval)
     }
 
-    public static void main(String[] args) {
+    /*
+    delete the first element in the list
+    exercise B.1
+     */
+    public void deleteFirst() {
+        if (sentinel.next != null) {
+            size--;
+            sentinel.next = sentinel.next.next;
+        }
+    }
 
+    //exercise A.1
+    public void addAdjacent() {
+        if (size >= 2) {
+            IntNode p = sentinel.next;
+            IntNode temp;
+            IntNode prev = sentinel;
+            while (p.next != null) {
+                if (p.item == p.next.item) {
+                    temp = new IntNode(p.item + p.next.item, p.next.next);
+                    prev.next = temp;
+                    p = temp;
+                    size--;
+                }else {
+                    prev = p;
+                    p = p.next;
+                }
+            }
+        }
+    }
+
+    //string representation of the list
+    private static String toString(IntNode p) {
+        //base case if the list is empty
+        if (p == null) {
+            return "list is empty";
+        }
+        //base case if the list has only one element
+        if (p.next == null) {
+            return String.valueOf(p.item);
+        }
+        //recursive case
+        return p.item + " -> " + toString(p.next);
+    }
+
+    public String toString() {
+        return toString(sentinel.next);
+    }
+
+    public static void main(String[] args) {
+        int[] a = new int[]{1, 1, 2, 3};
+//        int[] a = new int[]{6, 1, 1, 2, 3};
+//        int[] a = new int[]{1, 1};
+        SLList list = new SLList(a);
+//        list.addLast(50);
+//        list.addLast(40);
+//        list.deleteFirst();
+        System.out.println("list size: " + list.size());
+        System.out.println("before: " + list.toString());
+        list.addAdjacent();
+        System.out.println("addAdjacent() :-");
+        System.out.println("list size: " + list.size());
+        System.out.println("after : " + list.toString());
     }
 }
