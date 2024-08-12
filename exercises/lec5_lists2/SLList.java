@@ -12,10 +12,10 @@ public class SLList {
     If the nested class (IntNode) has no need to use any of the instance methods or variables of SLList,
     you may declare the nested class static, as follows.
     Declaring a nested class as static means that methods inside the static class can not access any of the instance members of the enclosing class.
-    But it can still access static members as seen in the Government.java .
+    But it can still access static members in the outer class .
     This saves a bit of memory, because each IntNode no longer needs to keep track of how to access its enclosing SLList.
      */
-    public static class IntNode {
+    private static class IntNode {
         //instance variables
         public int item;
         public IntNode next;
