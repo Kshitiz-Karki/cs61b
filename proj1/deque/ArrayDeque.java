@@ -42,11 +42,7 @@ public class ArrayDeque<T> {
         }
         items[nextFirst] = item;
         size++;
-        if (nextFirst == 0) {
-            nextFirst = items.length - 1;
-        } else {
-            nextFirst--;
-        }
+        nextFirst = (nextFirst - 1 + items.length) % items.length;
     }
 
     /*
@@ -58,11 +54,7 @@ public class ArrayDeque<T> {
         }
         items[nextLast] = item;
         size++;
-        if (nextLast == items.length - 1) {
-            nextLast = 0;
-        } else {
-            nextLast++;
-        }
+        nextLast = (nextLast + 1 + items.length) % items.length;
     }
 
     /*
@@ -118,11 +110,6 @@ public class ArrayDeque<T> {
             resize(items.length / USAGE_FACTOR);
         }
         size--;
-//        if (nextLast == 0) {
-//            nextLast = items.length - 1;
-//        } else {
-//            nextLast--;
-//        }
         nextLast = (nextLast - 1 + items.length) % items.length;
         T item = items[nextLast];
         items[nextLast] = null;
