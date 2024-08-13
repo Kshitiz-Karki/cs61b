@@ -118,11 +118,12 @@ public class ArrayDeque<T> {
             resize(items.length / USAGE_FACTOR);
         }
         size--;
-        if (nextLast == 0) {
-            nextLast = items.length - 1;
-        } else {
-            nextLast--;
-        }
+//        if (nextLast == 0) {
+//            nextLast = items.length - 1;
+//        } else {
+//            nextLast--;
+//        }
+        nextLast = (nextLast - 1 + items.length) % items.length;
         T item = items[nextLast];
         items[nextLast] = null;
         return item;
@@ -139,4 +140,11 @@ public class ArrayDeque<T> {
         return items[(nextFirst + 1 + index) % items.length];
     }
 
+    /** returns last item in the list */
+    public T getLast() {
+        if (isEmpty()) { //(nextFirst + 1) % items.length == nextLast
+            return null;
+        }
+        return items[(nextLast - 1 + items.length) % items.length];
+    }
 }

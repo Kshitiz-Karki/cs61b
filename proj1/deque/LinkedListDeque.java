@@ -1,4 +1,5 @@
 package deque;
+
 /*
 Doubly Linked list with a circular sentinel node
  */
@@ -135,5 +136,10 @@ public class LinkedListDeque<T> {
             return null;
         }
         return getRecursiveHelper(index, sentinel.next);
+    }
+
+    /** returns last item in the list */
+    public T getLast() {
+        return sentinel.prev.item;
     }
 }
