@@ -17,7 +17,7 @@ public class LinkedListDeque<T> {
     }
 
     //instance variables
-    private IntNode sentinel;
+    private final IntNode sentinel;
     private int size;
 
     //constructor - empty
