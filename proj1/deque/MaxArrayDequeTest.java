@@ -19,7 +19,7 @@ public class MaxArrayDequeTest {
     @Test
     public void max2Test() {
         StringComparator s = new StringComparator();
-        MaxArrayDeque<String> maxArr = new MaxArrayDeque<>();
+        MaxArrayDeque<String> maxArr = new MaxArrayDeque<>(s);
         maxArr.addFirst("Austria");
         maxArr.addFirst("France");
         maxArr.addFirst("Belgium");

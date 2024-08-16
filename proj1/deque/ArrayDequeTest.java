@@ -82,4 +82,17 @@ public class ArrayDequeTest {
         lld1.addLast("Time");
         assertEquals(lld1.getLast(), "Time");
     }
+
+    @Test
+    public void doubleTest() {
+        ArrayDeque<Double> arr = new ArrayDeque<>();
+        arr.addLast(1.8);
+        arr.addFirst(5.5);
+        arr.addFirst(9.0);
+        arr.addLast(6.7);
+        arr.printDeque();
+        assertEquals(arr.removeLast(), 6.7, 0.0);
+        arr.printDeque();
+        assertEquals(arr.get(0), 9.0, 0.0);
+    }
 }
