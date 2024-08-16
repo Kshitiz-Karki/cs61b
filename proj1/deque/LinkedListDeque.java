@@ -3,7 +3,7 @@ package deque;
 /*
 Doubly Linked list with a circular sentinel node
  */
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private class IntNode {
         //instance variables
         public IntNode prev;
@@ -31,6 +31,7 @@ public class LinkedListDeque<T> {
 
     //instance/static methods
     //Adds an item of type T to the front of the deque assuming that item is never null
+    @Override
     public void addFirst(T item) {
         size++;
         IntNode x = new IntNode(sentinel, item, sentinel.next);
@@ -41,6 +42,7 @@ public class LinkedListDeque<T> {
     /*
     Adds an item of type T to the back of the deque assuming that item is never null
      */
+    @Override
     public void addLast(T item) {
         size++;
         IntNode x = new IntNode(sentinel.prev, item, sentinel);
@@ -48,12 +50,8 @@ public class LinkedListDeque<T> {
         sentinel.prev = x;
     }
 
-    //Returns true if deque is empty, false otherwise
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
     //Returns the number of items in the deque
+    @Override
     public int size() {
         return size;
     }
@@ -62,6 +60,7 @@ public class LinkedListDeque<T> {
     Prints the items in the deque from first to last, separated by a space.
     Once all the items have been printed, print out a new line.
      */
+    @Override
     public void printDeque() {
         if (size > 0) {
             if (size == 1) {
@@ -80,6 +79,7 @@ public class LinkedListDeque<T> {
     /*
     Removes and returns the item at the front of the deque. If no such item exists, returns null
      */
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -95,6 +95,7 @@ public class LinkedListDeque<T> {
     /*
     Removes and returns the item at the back of the deque. If no such item exists, returns null
      */
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -111,6 +112,7 @@ public class LinkedListDeque<T> {
     Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
     If no such item exists, returns null.
      */
+    @Override
     public T get(int index) {
         if (index >= size || index < 0) {
             return null;
