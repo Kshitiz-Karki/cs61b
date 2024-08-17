@@ -12,7 +12,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         private T item;
         private IntNode next;
         //constructor
-        public IntNode(IntNode p, T i, IntNode n) {
+        IntNode(IntNode p, T i, IntNode n) {
             prev = p;
             item = i;
             next = n;
@@ -144,15 +144,10 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return getRecursiveHelper(index, sentinel.next);
     }
 
-    /** returns last item in the list */
-    public T getLast() {
-        return sentinel.prev.item;
-    }
-
     private class LinkedListIterator implements Iterator<T> {
         private int position;
 
-        public LinkedListIterator() {
+        LinkedListIterator() {
             position = 0;
         }
 
@@ -175,19 +170,15 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        if (o instanceof LinkedListDeque) {
-            LinkedListDeque<T> list = (LinkedListDeque<T>) o;
+        if (o instanceof Deque) {
+            Deque<T> list = (Deque<T>) o;
             if (this.size != list.size()) {
                 return false;
             }
-            IntNode p = sentinel.next;
-            int i = 0;
-            while (p != sentinel) {
-                if (p.item != list.get(i)) {
+            for (int i = 0; i < size; i++) {
+                if (this.get(i) != list.get(i)) {
                     return false;
                 }
-                p = p.next;
-                i++;
             }
             return true;
         }

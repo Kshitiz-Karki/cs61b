@@ -13,43 +13,33 @@ public class LinkedListDequeTest {
      *
      * && is the "and" operation. */
     public void addIsEmptySizeTest() {
-
         LinkedListDeque<String> lld1 = new LinkedListDeque<>();
-
-		assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
-		lld1.addFirst("front");
-
-		// The && operator is the same as "and" in Python.
-		// It's a binary operator that returns true if both arguments true, and false otherwise.
+        assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
+        lld1.addFirst("front");
+        // The && operator is the same as "and" in Python.
+        // It's a binary operator that returns true if both arguments true, and false otherwise.
         assertEquals(1, lld1.size());
         assertFalse("lld1 should now contain 1 item", lld1.isEmpty());
-
-		lld1.addLast("middle");
-		assertEquals(2, lld1.size());
-
-		lld1.addLast("back");
-		assertEquals(3, lld1.size());
-
-		System.out.println("Printing out deque: ");
-		lld1.printDeque();
-
+        lld1.addLast("middle");
+        assertEquals(2, lld1.size());
+        lld1.addLast("back");
+        assertEquals(3, lld1.size());
+        System.out.println("Printing out deque: ");
+        lld1.printDeque();
     }
 
     @Test
     /* Adds an item, then removes an item, and ensures that dll is empty afterward. */
     public void addRemoveTest() {
-
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
-		// should be empty
-		assertTrue("lld1 should be empty upon initialization", lld1.isEmpty());
-
-		lld1.addFirst(10);
-		// should not be empty
-		assertFalse("lld1 should contain 1 item", lld1.isEmpty());
-
-		lld1.removeFirst();
-		// should be empty
-		assertTrue("lld1 should be empty after removal", lld1.isEmpty());
+        //should be empty
+        assertTrue("lld1 should be empty upon initialization", lld1.isEmpty());
+        lld1.addFirst(10);
+        // should not be empty
+        assertFalse("lld1 should contain 1 item", lld1.isEmpty());
+        lld1.removeFirst();
+        // should be empty
+        assertTrue("lld1 should be empty after removal", lld1.isEmpty());
     }
 
     @Test
@@ -139,16 +129,6 @@ public class LinkedListDequeTest {
     }
 
     @Test
-    public void getLastTest() {
-        LinkedListDeque<String> lld1 = new LinkedListDeque<>();
-        lld1.addFirst("hey");
-        lld1.addFirst("Pink Floyd");
-        lld1.addLast("Echoes");
-        lld1.addLast("Time");
-        assertEquals(lld1.getLast(), "Time");
-    }
-
-    @Test
     public void iteratorTest() {
         LinkedListDeque<String> lld1 = new LinkedListDeque<>();
         lld1.addFirst("hey");
@@ -175,5 +155,4 @@ public class LinkedListDequeTest {
         lld2.addLast("Time");
         System.out.println(lld1.equals(lld2));
     }
-
 }

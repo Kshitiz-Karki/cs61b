@@ -15,8 +15,10 @@ public class ArrayDequeTest {
         arr.addFirst("f");
         arr.addLast("g");
         arr.addLast("h");
+        arr.addLast("h");
+        arr.addLast("h");
 
-        assertEquals(arr.size(), 8);
+        assertEquals(arr.size(), 10);
         System.out.println("Printing out deque: ");
         arr.printDeque();
     }
@@ -74,16 +76,6 @@ public class ArrayDequeTest {
     }
 
     @Test
-    public void getLastTest() {
-        ArrayDeque<String> lld1 = new ArrayDeque<>();
-        lld1.addFirst("hey");
-        lld1.addFirst("Pink Floyd");
-        lld1.addLast("Echoes");
-        lld1.addLast("Time");
-        assertEquals(lld1.getLast(), "Time");
-    }
-
-    @Test
     public void doubleTest() {
         ArrayDeque<Double> arr = new ArrayDeque<>();
         arr.addLast(1.8);
@@ -94,5 +86,41 @@ public class ArrayDequeTest {
         assertEquals(arr.removeLast(), 6.7, 0.0);
         arr.printDeque();
         assertEquals(arr.get(0), 9.0, 0.0);
+    }
+
+    @Test
+    public void iteratorTest() {
+        ArrayDeque<String> arr = new ArrayDeque<>();
+        arr.addFirst("hey");
+        arr.addFirst("Pink Floyd");
+        arr.addLast("Echoes");
+        arr.addLast("Time");
+        for (String x: arr) {
+            System.out.println(x);
+        }
+    }
+
+    @Test
+    public void equalsTest() {
+        ArrayDeque<String> arr1 = new ArrayDeque<>();
+        arr1.addFirst("hey");
+        arr1.addFirst("Pink Floyd");
+        arr1.addLast("Echoes");
+        arr1.addLast("Time");
+
+        ArrayDeque<String> arr2 = new ArrayDeque<>();
+        arr2.addFirst("hey");
+        arr2.addFirst("Pink Floyd");
+        arr2.addLast("Echoes");
+        arr2.addLast("Time");
+
+        LinkedListDeque<String> lld1 = new LinkedListDeque<>();
+        lld1.addFirst("hey");
+        lld1.addFirst("Pink Floyd");
+        lld1.addLast("Echoes");
+        lld1.addLast("Time");
+        System.out.println(arr1.equals(lld1));
+        System.out.println(lld1.equals(arr2));
+        System.out.println(arr1.equals(arr2));
     }
 }

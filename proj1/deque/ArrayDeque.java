@@ -58,7 +58,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
         items[nextLast] = item;
         size++;
-        nextLast = (nextLast + 1 + items.length) % items.length;
+        nextLast = (nextLast + 1) % items.length;
     }
 
     /*
@@ -129,27 +129,19 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return items[(nextFirst + 1 + index) % items.length];
     }
 
-    /** returns last item in the list */
-    public T getLast() {
-        if (isEmpty()) { //(nextFirst + 1) % items.length == nextLast
-            return null;
-        }
-        return items[(nextLast - 1 + items.length) % items.length];
-    }
-
     private class ArrayDequeIterator implements Iterator<T> {
         private int position;
 
-        public ArrayDequeIterator() {
-            position = 0;
+        ArrayDequeIterator() {
+            position = 1;
         }
 
         public boolean hasNext() {
-            return position < size;
+            return position <= size;
         }
 
         public T next() {
-            T returnItem = items[position];
+            T returnItem = items[(position + nextFirst) % items.length];
             position++;
             return returnItem;
         }
@@ -163,13 +155,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        if (o instanceof ArrayDeque) {
-            ArrayDeque<T> list = (ArrayDeque<T>) o;
+        if (o instanceof Deque) {
+            Deque<T> list = (Deque<T>) o;
             if (this.size != list.size()) {
                 return false;
             }
             for (int i = 0; i < size; i++) {
-                if (this.items[i] != list.items[i]) {
+                if (this.get(i) != list.get(i)) {
                     return false;
                 }
             }
