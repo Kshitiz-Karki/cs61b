@@ -1,6 +1,8 @@
 package deque;
 
-public class ArrayDeque<T> implements Deque<T> {
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     //instance variables
     private T[] items;
     private int size;
@@ -13,7 +15,7 @@ public class ArrayDeque<T> implements Deque<T> {
     //constructor
     public ArrayDeque() {
         size = 0;
-        items = (T []) new Object[INITIAL_SIZE];
+        items = (T[]) new Object[INITIAL_SIZE];
         nextFirst = 3;
         nextLast = 4;
     }
@@ -24,7 +26,7 @@ public class ArrayDeque<T> implements Deque<T> {
     many empty spaces
      */
     private void resize(int newSize) {
-        T[] newItems = (T []) new Object[newSize];
+        T[] newItems = (T[]) new Object[newSize];
         for (int i = 0; i < size; i++) {
             newItems[i] = items[(i + 1 + nextFirst) % items.length];
         }
@@ -88,7 +90,7 @@ public class ArrayDeque<T> implements Deque<T> {
             return null;
         }
         if (size <= items.length / USAGE_FACTOR && items.length >= INITIAL_SIZE_DOUBLE) {
-         resize(items.length / USAGE_FACTOR);
+            resize(items.length / USAGE_FACTOR);
         }
         size--;
         nextFirst = (nextFirst + 1) % items.length;
@@ -133,5 +135,46 @@ public class ArrayDeque<T> implements Deque<T> {
             return null;
         }
         return items[(nextLast - 1 + items.length) % items.length];
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int position;
+
+        public ArrayDequeIterator() {
+            position = 0;
+        }
+
+        public boolean hasNext() {
+            return position < size;
+        }
+
+        public T next() {
+            T returnItem = items[position];
+            position++;
+            return returnItem;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof ArrayDeque) {
+            ArrayDeque<T> list = (ArrayDeque<T>) o;
+            if (this.size != list.size()) {
+                return false;
+            }
+            for (int i = 0; i < size; i++) {
+                if (this.items[i] != list.items[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

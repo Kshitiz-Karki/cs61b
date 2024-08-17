@@ -1,14 +1,16 @@
 package deque;
 
+import java.util.Iterator;
+
 /*
 Doubly Linked list with a circular sentinel node
  */
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class IntNode {
         //instance variables
-        public IntNode prev;
-        public T item;
-        public IntNode next;
+        private IntNode prev;
+        private T item;
+        private IntNode next;
         //constructor
         public IntNode(IntNode p, T i, IntNode n) {
             prev = p;
@@ -88,7 +90,8 @@ public class LinkedListDeque<T> implements Deque<T> {
         IntNode first = sentinel.next;
         sentinel.next = first.next;
         first.next.prev = sentinel;
-        first.next = first.prev = null;
+        first.next = null;
+        first.prev = null;
         return first.item;
     }
 
@@ -104,7 +107,8 @@ public class LinkedListDeque<T> implements Deque<T> {
         IntNode last = sentinel.prev;
         sentinel.prev = last.prev;
         last.prev.next = sentinel;
-        last.prev = last.next = null;
+        last.prev = null;
+        last.next = null;
         return last.item;
     }
 
@@ -143,5 +147,50 @@ public class LinkedListDeque<T> implements Deque<T> {
     /** returns last item in the list */
     public T getLast() {
         return sentinel.prev.item;
+    }
+
+    private class LinkedListIterator implements Iterator<T> {
+        private int position;
+
+        public LinkedListIterator() {
+            position = 0;
+        }
+
+        public boolean hasNext() {
+            return position < size;
+        }
+
+        public T next() {
+            T returnItem = get(position);
+            position++;
+            return returnItem;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof LinkedListDeque) {
+            LinkedListDeque<T> list = (LinkedListDeque<T>) o;
+            if (this.size != list.size()) {
+                return false;
+            }
+            IntNode p = sentinel.next;
+            int i = 0;
+            while (p != sentinel) {
+                if (p.item != list.get(i)) {
+                    return false;
+                }
+                p = p.next;
+                i++;
+            }
+            return true;
+        }
+        return false;
     }
 }

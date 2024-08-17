@@ -8,7 +8,7 @@ public interface Deque<T> {
     /*
     Returns true if deque is empty, false otherwise
      */
-    default public boolean isEmpty(){
+    default public boolean isEmpty() {
         return size() == 0;
     }
 

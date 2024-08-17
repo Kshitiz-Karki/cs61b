@@ -32,7 +32,7 @@ public class ArrayDequeTest {
         arr.addLast("e");
         System.out.println("Before removal:");
         arr.printDeque();
-        assertEquals(arr.removeFirst(), "f" );
+        assertEquals(arr.removeFirst(), "f");
         arr.removeFirst();
         arr.removeFirst();
         System.out.println("After removal:");
@@ -51,7 +51,7 @@ public class ArrayDequeTest {
         arr.addLast("e");
         System.out.println("Before removal:");
         arr.printDeque();
-        assertEquals(arr.removeLast(), "e" );
+        assertEquals(arr.removeLast(), "e");
         arr.removeLast();
         arr.removeLast();
         System.out.println("After removal:");
