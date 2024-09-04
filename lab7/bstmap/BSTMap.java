@@ -1,7 +1,9 @@
 package bstmap;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Stack;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     //class for each node in the tree
@@ -20,9 +22,11 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     }
 
     private TreeNode<K, V> root;
+    private Set<K> set;
 
     public BSTMap() {
         root = null;
+        set = new HashSet<>();
     }
 
     // instance methods
@@ -95,6 +99,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     private TreeNode<K, V> putHelper(TreeNode<K, V> node, K key, V value) {
         if (node == null) {
+            set.add(key);
             return new TreeNode<>(key, value);
         }
         if (node.key.compareTo(key) < 0) {
@@ -106,10 +111,27 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return node;
     }
 
+    public void printInOrder() {
+        if (root == null) {
+            System.out.println("tree is empty");
+        } else {
+            printInorderHelper(root);
+            System.out.println();
+        }
+    }
+
+    public void printInorderHelper(TreeNode<K, V> node) {
+        if (node == null) {
+            return;
+        }
+        printInorderHelper(node.left);
+        System.out.print("(" + node.key + ", " + node.value + "), ");
+        printInorderHelper(node.right);
+    }
+
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
-//        return Set.of();
+        return set;
     }
 
     @Override
@@ -131,7 +153,46 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
-//        return null;
+        return new BSTMapIterator();
+    }
+
+    //reference - https://www.youtube.com/watch?v=RXy5RzGF5wo
+    private class BSTMapIterator implements Iterator<K> {
+        public Stack<TreeNode<K, V>> s;
+        public BSTMapIterator() {
+            s = new Stack<>();
+            TreeNode<K, V> ptr = root;
+            while (ptr != null) {
+               s.push(ptr);
+                ptr = ptr.left;
+            }
+        }
+
+        public boolean hasNext() {
+            return !s.isEmpty();
+        }
+
+        public K next() {
+            TreeNode<K, V> node = s.pop();
+            TreeNode<K, V> ptr = node.right;
+            while (ptr != null) {
+                s.push(ptr);
+                ptr = ptr.left;
+            }
+            return node.key;
+        }
+    }
+
+    public static void main(String[] args) {
+        BSTMap<String, Integer> bst = new BSTMap<>();
+        bst.put("Germany", 45);
+        bst.put("Switzerland", 3);
+        bst.put("Amsterdam", 78);
+        bst.put("Amsterdam", 78);
+
+        for (String x : bst) {
+            System.out.println(x);
+        }
+        System.out.println(bst.keySet());
     }
 }
