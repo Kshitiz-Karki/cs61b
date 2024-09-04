@@ -120,7 +120,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         }
     }
 
-    public void printInorderHelper(TreeNode<K, V> node) {
+    private void printInorderHelper(TreeNode<K, V> node) {
         if (node == null) {
             return;
         }
@@ -136,14 +136,74 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
-//        return null;
+        return removeHelper(root, key, root);
     }
 
     @Override
     public V remove(K key, V value) {
         throw new UnsupportedOperationException();
-//        return null;
+    }
+
+    private V removeHelper(TreeNode<K,V> node, K key, TreeNode<K,V> parent) {
+        //case1: deletion node has no children (just sever the parent's link and the deletion key will be garbage collected)
+        //case2: deletion node has one child (move deletion key's parent's pointer to deletion key's child)
+        if (node == null) {
+            System.out.println("key not present");
+            return null;
+        }
+        if (node.key.compareTo(key) == 0) {
+            //case 3: deletion node has both left and right child (delete inorder successor/predecessor and update deletion node's item with the same)
+            if (node.left != null && node.right != null) {
+                TreeNode<K,V> ip = inorderPredecessorSuccessor(node);
+                remove(ip.key);
+                V deletedItem = node.value;
+                node.key = ip.key;
+                node.value = ip.value;
+                return deletedItem;
+            }
+            //case 3, end
+            if (key.compareTo(parent.key) > 0) {
+                parent.right = node.left != null ? node.left : node.right;
+            } else {
+                parent.left = node.left != null ? node.left : node.right;
+            }
+            return node.value;
+        }
+        if (node.key.compareTo(key) > 0) {
+            return removeHelper(node.left, key, node);
+        } else {
+            return removeHelper(node.right, key, node);
+        }
+    }
+
+    private TreeNode<K,V> inorderPredecessorSuccessor(TreeNode<K,V> node) {
+        TreeNode<K,V> ptr;
+        if (height(node.left) > height(node.right)) {
+            //inorder predecessor
+            ptr = node.left;
+            while (ptr.right != null) {
+                ptr = ptr.right;
+            }
+        } else {
+            //inorder successor
+            ptr = node.right;
+            while (ptr.left != null) {
+                ptr = ptr.left;
+            }
+        }
+        return ptr;
+    }
+
+    private int height(TreeNode<K,V> root) {
+        if (root == null) {
+            return 0;
+        }
+        int x = height(root.left);
+        int y = height(root.right);
+        if (x > y) {
+            return x + 1;
+        }
+        return y + 1;
     }
 
     /**
@@ -183,16 +243,16 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         }
     }
 
-    public static void main(String[] args) {
-        BSTMap<String, Integer> bst = new BSTMap<>();
-        bst.put("Germany", 45);
-        bst.put("Switzerland", 3);
-        bst.put("Amsterdam", 78);
-        bst.put("Amsterdam", 78);
-
-        for (String x : bst) {
-            System.out.println(x);
-        }
-        System.out.println(bst.keySet());
-    }
+//    public static void main(String[] args) {
+//        BSTMap<String, Integer> bst = new BSTMap<>();
+//        bst.put("Germany", 45);
+//        bst.put("Switzerland", 3);
+//        bst.put("Amsterdam", 78);
+//        bst.put("Amsterdam", 78);
+//
+//        for (String x : bst) {
+//            System.out.println(x);
+//        }
+//        System.out.println(bst.keySet());
+//    }
 }
