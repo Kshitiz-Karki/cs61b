@@ -1,0 +1,51 @@
+#InsertRandomSpeedTest
+ This program inserts random Strings of length L
+ Into different types of maps as <String, Integer> pairs.
+
+What would you like L to be?: 10
+
+Enter # strings to insert into hashmap.ULLMap: 10000
+class hashmap.ULLMap: 0.16 sec
+
+Enter # strings to insert into your hashmap.MyHashMap: 10000
+class hashmap.MyHashMap: 0.01 sec
+
+Enter # strings to insert into Java's HashMap: 10000
+Java's Built-in HashMap: 0.00 sec
+
+Would you like to try more timed-tests? (y/n)y
+
+Enter # strings to insert into hashmap.ULLMap: 100000
+--Stack Overflow -- couldn't add 100000 strings of length 10.
+
+Enter # strings to insert into your hashmap.MyHashMap: 100000
+class hashmap.MyHashMap: 0.11 sec
+
+Enter # strings to insert into Java's HashMap: 100000
+Java's Built-in HashMap: 0.04 sec
+
+Would you like to try more timed-tests? (y/n)y
+
+Enter # strings to insert into hashmap.ULLMap: 1000000
+--Stack Overflow -- couldn't add 1000000 strings of length 10.
+
+Enter # strings to insert into your hashmap.MyHashMap: 1000000
+class hashmap.MyHashMap: 1.07 sec
+
+Enter # strings to insert into Java's HashMap: 1000000
+Java's Built-in HashMap: 0.41 sec
+
+Would you like to try more timed-tests? (y/n)y
+
+Enter # strings to insert into hashmap.ULLMap: 10000000
+--Stack Overflow -- couldn't add 10000000 strings of length 10.
+
+Enter # strings to insert into your hashmap.MyHashMap: 10000000
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at hashmap.MyHashMap.createBucket(MyHashMap.java:87)
+	at hashmap.MyHashMap.createTable(MyHashMap.java:102)
+	at hashmap.MyHashMap.resize(MyHashMap.java:114)
+	at hashmap.MyHashMap.put(MyHashMap.java:195)
+	at speed.InsertRandomSpeedTest.insertRandom(InsertRandomSpeedTest.java:61)
+	at speed.InsertRandomSpeedTest.timeRandomMap61B(InsertRandomSpeedTest.java:87)
+	at speed.InsertRandomSpeedTest.main(InsertRandomSpeedTest.java:39)
