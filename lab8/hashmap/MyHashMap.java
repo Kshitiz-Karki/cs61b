@@ -30,7 +30,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private int M = 16;
     private double loadFactor = 0.75;
     private int N = 0;
-    private Set<K> set;
+    private final Set<K> set;
 
     /** Constructors */
     public MyHashMap() {
@@ -187,7 +187,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             }
         }
         Node n = createNode(key, value);
-        buckets[hash(key)].add(n);
+        buckets[hashCode].add(n);
         set.add(key);
         N++;
         //resize
@@ -213,7 +213,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        int hashCode = hash(key);
+        for (Node x: buckets[hashCode]) {
+            if (x.key.equals(key)) {
+                buckets[hashCode].remove(x);
+                return x.value;
+            }
+        }
+        return null;
     }
 
     /**
@@ -226,7 +233,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        int hashCode = hash(key);
+        for (Node x: buckets[hashCode]) {
+            if (x.key.equals(key) && x.value.equals(value)) {
+                buckets[hashCode].remove(x);
+                return x.value;
+            }
+        }
+        return null;
     }
 
     /**
