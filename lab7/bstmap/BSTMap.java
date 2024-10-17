@@ -6,26 +6,24 @@ import java.util.Set;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private static class TreeNode<K, V> {
+        private TreeNode<K, V> left;
         private final K key;
         private V value;
-        private TreeNode<K, V> left;
         private TreeNode<K, V> right;
 
-        private TreeNode(K k, V v) {
-            key = k;
-            value = v;
+        private TreeNode(K key, V value) {
             left = null;
+            this.key = key;
+            this.value = value;
             right = null;
         }
     }
 
     private TreeNode<K, V> root;
-    private int size;
     private Set<K> keys;
 
     public BSTMap() {
         root = null;
-        size = 0;
         keys = new HashSet<>();
     }
 
@@ -33,15 +31,14 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     @Override
     public void clear() {
         root = null;
-        size = 0;
         keys = null;
     }
 
     private boolean containsKeyHelper(TreeNode<K, V> node, K key) {
         if (node == null) return false;
         if (node.key.compareTo(key) == 0) return true;
-        else if (node.key.compareTo(key) < 0) return containsKeyHelper(node.left, key);
-        else return containsKeyHelper(node.right, key);
+        else if (node.key.compareTo(key) < 0) return containsKeyHelper(node.right, key);
+        else return containsKeyHelper(node.left, key);
     }
 
     @Override
@@ -52,8 +49,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private V getHelper(TreeNode<K, V> node, K key) {
         if (node == null) return null;
         if (node.key.compareTo(key) == 0) return node.value;
-        else if (node.key.compareTo(key) < 0) return getHelper(node.left, key);
-        else return getHelper(node.right, key);
+        else if (node.key.compareTo(key) < 0) return getHelper(node.right, key);
+        else return getHelper(node.left, key);
     }
 
     @Override
@@ -61,16 +58,23 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return getHelper(root, key);
     }
 
+    private int sizeHelper(TreeNode<K, V> node) {
+        if (node == null) return 0;
+        int x = sizeHelper(node.left);
+        int y = sizeHelper(node.right);
+        return x + y + 1;
+    }
+
     @Override
     public int size() {
-        return size;
+        return sizeHelper(root);
     }
 
     private TreeNode<K, V> putHelper(TreeNode<K, V> node, K key, V value) {
         if (node == null) return new TreeNode<>(key, value);
         if (node.key.compareTo(key) == 0) node.value = value;
-        else if (node.key.compareTo(key) < 0) node.left = putHelper(node.left, key, value);
-        else node.right = putHelper(node.right, key, value);
+        else if (node.key.compareTo(key) < 0) node.right = putHelper(node.right, key, value);
+        else node.left = putHelper(node.left, key, value);
         return node;
     }
 
@@ -130,17 +134,18 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         System.out.println();
     }
 
-    public static void main(String[] args) {
-        BSTMap<String, Integer> map = new BSTMap<>();
-        map.put("Berlin", 3);
-        map.put("Amsterdam", 4);
-        map.put("Zurich", 7);
-        map.put("London", 10);
-        for (String city: map) {
-            System.out.print(city + " ");
-        }
-        System.out.println();
-        map.printInOrder();
-        System.out.println("containsKey('Amsterdam'): " + map.containsKey("Amsterdam"));
-    }
+    //    public static void main(String[] args) {
+    //        BSTMap<String, Integer> map = new BSTMap<>();
+    //        map.put("Berlin", 3);
+    //        map.put("Amsterdam", 4);
+    //        map.put("Zurich", 7);
+    //        map.put("London", 10);
+    //        for (String city: map) {
+    //            System.out.print(city + " ");
+    //        }
+    //        System.out.println();
+    //        map.printInOrder();
+    //        System.out.println("containsKey('Amsterdam'): " + map.containsKey("Amsterdam"));
+    //        System.out.println("BSTMap size: " + map.size());
+    //    }
 }
