@@ -131,7 +131,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     @Override
     public Set<K> keySet() {
-        return Set.of(this.iterator().next());
+        return set;
     }
 
     @Override
