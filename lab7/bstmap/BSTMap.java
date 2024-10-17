@@ -20,8 +20,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     }
 
     private TreeNode<K, V> root;
-    private final int size;
-    Set<K> keys;
+    private int size;
+    private Set<K> keys;
 
     public BSTMap() {
         root = null;
@@ -33,6 +33,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     @Override
     public void clear() {
         root = null;
+        size = 0;
+        keys = null;
     }
 
     private boolean containsKeyHelper(TreeNode<K, V> node, K key) {
@@ -116,6 +118,18 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         }
     }
 
+    private void printInOrderHelper(TreeNode<K, V> node) {
+        if (node == null) return;
+        printInOrderHelper(node.left);
+        System.out.print(node.key + " ");
+        printInOrderHelper(node.right);
+    }
+
+    public void printInOrder() {
+        printInOrderHelper(root);
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         BSTMap<String, Integer> map = new BSTMap<>();
         map.put("Berlin", 3);
@@ -126,6 +140,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             System.out.print(city + " ");
         }
         System.out.println();
+        map.printInOrder();
         System.out.println("containsKey('Amsterdam'): " + map.containsKey("Amsterdam"));
     }
 }
