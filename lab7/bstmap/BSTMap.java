@@ -115,30 +115,28 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         //case 1:   deletion key is a leaf node
         if (node.key.compareTo(key) == 0 && isLeafNode(node)) return null;
         //case 2:   deletion key has only one child
-        else if (node.key.compareTo(key) == 0 && hasOnlyOneChild(node)) {   
+        else if (node.key.compareTo(key) == 0 && hasOnlyOneChild(node)) {
             if (node.left == null) return node.right;
             else return node.left;
         }
         //case 3:   deletion key has both left and right child
         else if (node.key.compareTo(key) == 0 && hasBothChild(node)) {
+            //Hibbard deletion method
             TreeNode<K, V> delNode = predecessor(node);
-            remove(delNode.key);
+            removeHelper(root, delNode.key);
             node.key = delNode.key;
             node.value = delNode.value;
-        } else if (node.key.compareTo(key) < 0) {
-            node.right = removeHelper(node.right, key);
-        }
-        else {
-            node.left = removeHelper(node.left, key);
-        }
+        } else if (node.key.compareTo(key) < 0) node.right = removeHelper(node.right, key);
+        else node.left = removeHelper(node.left, key);
         return node;
     }
 
     @Override
     public V remove(K key) {
+        keys.remove(key);
         TreeNode<K, V> retNode = removeHelper(root, key);
         if (retNode == null) {
-            root = null;
+            this.clear();
             return null;
         }
         return retNode.value;
@@ -208,6 +206,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 //            map.put("elf", 6);
 //            map.put("glut",7);
 //            map.put("eyes", 8);
+//            System.out.println("keys: " + map.keySet());
 //            map.printInOrder();
 //            System.out.println("BSTMap size: " + map.size());
 //            map.remove("glut");
@@ -219,5 +218,9 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 //            map.remove("dog");
 //            map.printInOrder();
 //            System.out.println("BSTMap size: " + map.size());
+//            map.remove("mouse");
+//            map.printInOrder();
+//            System.out.println("BSTMap size: " + map.size());
+//            System.out.println("keys: " + map.keySet());
 //        }
 }
