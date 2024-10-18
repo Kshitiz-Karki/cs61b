@@ -130,7 +130,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     private TreeNode<K, V> removeHelper(TreeNode<K, V> node, K key) {
         //if key is not present
-        if (node == null) return null;
+//        if (node == null) return null;
         //case 1:   deletion key is a leaf node
         if (node.key.compareTo(key) == 0 && isLeafNode(node)) {
             size--;
@@ -156,13 +156,16 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     @Override
     public V remove(K key) {
+        V retValue = get(key);
+        if (retValue == null) return null;
         keys.remove(key);
         TreeNode<K, V> retNode = removeHelper(root, key);
         if (retNode == null) {
             this.clear();
-            return null;
+//            return null;
         }
-        return retNode.value;
+        if (retNode != null && retNode != root) root = retNode;
+        return retValue;
     }
 
     @Override
@@ -205,8 +208,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         System.out.println();
     }
 
-        public static void main(String[] args) {
-            BSTMap<String, Integer> map = new BSTMap<>();
+//        public static void main(String[] args) {
+//            BSTMap<String, Integer> map = new BSTMap<>();
 //            map.put("Berlin", 3);
 //            map.put("Amsterdam", 4);
 //            map.put("Zurich", 7);
@@ -221,29 +224,29 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 //            map.remove("Amsterdam");
 //            map.printInOrder();
 //            System.out.println("BSTMap size: " + map.size());
-            map.put("dog", 1);
-            map.put("bag", 2);
-            map.put("flat", 3);
-            map.put("alf", 4);
-            map.put("cat", 5);
-            map.put("elf", 6);
-            map.put("glut",7);
-            map.put("eyes", 8);
-            System.out.println("keys: " + map.keySet());
-            map.printInOrder();
-            System.out.println("BSTMap size: " + map.size());
-            map.remove("glut");
-            map.printInOrder();
-            System.out.println("BSTMap size: " + map.size());
-            map.remove("flat");
-            map.printInOrder();
-            System.out.println("BSTMap size: " + map.size());
-            map.remove("dog");
-            map.printInOrder();
-            System.out.println("BSTMap size: " + map.size());
-            map.remove("mouse");
-            map.printInOrder();
-            System.out.println("BSTMap size: " + map.size());
-            System.out.println("keys: " + map.keySet());
-        }
+//            map.put("dog", 1);
+//            map.put("bag", 2);
+//            map.put("flat", 3);
+//            map.put("alf", 4);
+//            map.put("cat", 5);
+//            map.put("elf", 6);
+//            map.put("glut",7);
+//            map.put("eyes", 8);
+//            System.out.println("keys: " + map.keySet());
+//            map.printInOrder();
+//            System.out.println("BSTMap size: " + map.size());
+//            map.remove("glut");
+//            map.printInOrder();
+//            System.out.println("BSTMap size: " + map.size());
+//            map.remove("flat");
+//            map.printInOrder();
+//            System.out.println("BSTMap size: " + map.size());
+//            map.remove("dog");
+//            map.printInOrder();
+//            System.out.println("BSTMap size: " + map.size());
+//            map.remove("mouse");
+//            map.printInOrder();
+//            System.out.println("BSTMap size: " + map.size());
+//            System.out.println("keys: " + map.keySet());
+//        }
 }
