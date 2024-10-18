@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/*****************************************************
+    BSTMap with size as an instance variable
+ *****************************************************/
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private static class TreeNode<K, V> {
         private TreeNode<K, V> left;
@@ -21,10 +24,12 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     private TreeNode<K, V> root;
     private Set<K> keys;
+    private int size;
 
     public BSTMap() {
         root = null;
         keys = new HashSet<>();
+        size = 0;
     }
 
 
@@ -32,6 +37,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     public void clear() {
         root = null;
         keys = null;
+        size = 0;
     }
 
     private boolean containsKeyHelper(TreeNode<K, V> node, K key) {
@@ -58,20 +64,16 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return getHelper(root, key);
     }
 
-    private int sizeHelper(TreeNode<K, V> node) {
-        if (node == null) return 0;
-        int x = sizeHelper(node.left);
-        int y = sizeHelper(node.right);
-        return x + y + 1;
-    }
-
     @Override
     public int size() {
-        return sizeHelper(root);
+        return size;
     }
 
     private TreeNode<K, V> putHelper(TreeNode<K, V> node, K key, V value) {
-        if (node == null) return new TreeNode<>(key, value);
+        if (node == null) {
+            size++;
+            return new TreeNode<>(key, value);
+        }
         if (node.key.compareTo(key) == 0) node.value = value;
         else if (node.key.compareTo(key) < 0) node.right = putHelper(node.right, key, value);
         else node.left = putHelper(node.left, key, value);
@@ -101,10 +103,27 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return node != null && node.left != null && node.right != null;
     }
 
-    private TreeNode<K, V> predecessor(TreeNode<K, V> node) {
-        TreeNode<K, V> retNode = node.left;
-        while (retNode.right != null) {
-            retNode = retNode.right;
+    private int height(TreeNode<K, V> node) {
+        if (node == null) return 0;
+        int x = height(node.left);
+        int y = height(node.right);
+        return x > y ? x + 1 : y + 1;
+    }
+
+    private TreeNode<K, V> predecessorSuccessorNode(TreeNode<K, V> node) {
+        TreeNode<K, V> retNode;
+        if (height(node.left) > height(node.right)) {
+            //return predecessor
+            retNode = node.left;
+            while (retNode.right != null) {
+                retNode = retNode.right;
+            }
+        } else {
+            //return successor
+            retNode = node.right;
+            while (retNode.left != null) {
+                retNode = retNode.left;
+            }
         }
         return retNode;
     }
@@ -113,16 +132,20 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         //if key is not present
         if (node == null) return null;
         //case 1:   deletion key is a leaf node
-        if (node.key.compareTo(key) == 0 && isLeafNode(node)) return null;
+        if (node.key.compareTo(key) == 0 && isLeafNode(node)) {
+            size--;
+            return null;
+        }
         //case 2:   deletion key has only one child
         else if (node.key.compareTo(key) == 0 && hasOnlyOneChild(node)) {
+            size--;
             if (node.left == null) return node.right;
             else return node.left;
         }
         //case 3:   deletion key has both left and right child
         else if (node.key.compareTo(key) == 0 && hasBothChild(node)) {
             //Hibbard deletion method
-            TreeNode<K, V> delNode = predecessor(node);
+            TreeNode<K, V> delNode = predecessorSuccessorNode(node);
             removeHelper(root, delNode.key);
             node.key = delNode.key;
             node.value = delNode.value;
@@ -182,8 +205,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         System.out.println();
     }
 
-//        public static void main(String[] args) {
-//            BSTMap<String, Integer> map = new BSTMap<>();
+        public static void main(String[] args) {
+            BSTMap<String, Integer> map = new BSTMap<>();
 //            map.put("Berlin", 3);
 //            map.put("Amsterdam", 4);
 //            map.put("Zurich", 7);
@@ -198,29 +221,29 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 //            map.remove("Amsterdam");
 //            map.printInOrder();
 //            System.out.println("BSTMap size: " + map.size());
-//            map.put("dog", 1);
-//            map.put("bag", 2);
-//            map.put("flat", 3);
-//            map.put("alf", 4);
-//            map.put("cat", 5);
-//            map.put("elf", 6);
-//            map.put("glut",7);
-//            map.put("eyes", 8);
-//            System.out.println("keys: " + map.keySet());
-//            map.printInOrder();
-//            System.out.println("BSTMap size: " + map.size());
-//            map.remove("glut");
-//            map.printInOrder();
-//            System.out.println("BSTMap size: " + map.size());
-//            map.remove("flat");
-//            map.printInOrder();
-//            System.out.println("BSTMap size: " + map.size());
-//            map.remove("dog");
-//            map.printInOrder();
-//            System.out.println("BSTMap size: " + map.size());
-//            map.remove("mouse");
-//            map.printInOrder();
-//            System.out.println("BSTMap size: " + map.size());
-//            System.out.println("keys: " + map.keySet());
-//        }
+            map.put("dog", 1);
+            map.put("bag", 2);
+            map.put("flat", 3);
+            map.put("alf", 4);
+            map.put("cat", 5);
+            map.put("elf", 6);
+            map.put("glut",7);
+            map.put("eyes", 8);
+            System.out.println("keys: " + map.keySet());
+            map.printInOrder();
+            System.out.println("BSTMap size: " + map.size());
+            map.remove("glut");
+            map.printInOrder();
+            System.out.println("BSTMap size: " + map.size());
+            map.remove("flat");
+            map.printInOrder();
+            System.out.println("BSTMap size: " + map.size());
+            map.remove("dog");
+            map.printInOrder();
+            System.out.println("BSTMap size: " + map.size());
+            map.remove("mouse");
+            map.printInOrder();
+            System.out.println("BSTMap size: " + map.size());
+            System.out.println("keys: " + map.keySet());
+        }
 }
